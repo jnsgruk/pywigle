@@ -1,0 +1,6 @@
+{
+    "api_creds": {
+        "api_name":"YOUR_API_NAME_HERE",
+        "api_token":"YOUR_API_TOKEN_HERE"
+    }
+}

@@ -1,4 +1,4 @@
-## Basic Wigle API Script
+##  Wigle API Network Search & Mapping Script
 
 Wigle Python script that can search a specific area for hotspots and output the results as JSON, CSV or KML.
 

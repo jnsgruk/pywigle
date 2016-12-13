@@ -2,3 +2,4 @@ lxml==3.7.0
 pykml==0.1.0
 requests==2.12.3
 unicodecsv==0.14.1
+python_dateutil==2.6.0

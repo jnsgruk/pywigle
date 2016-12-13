@@ -4,6 +4,10 @@ import requests
 import unicodecsv as csv
 from pykml.factory import KML_ElementMaker as KML
 from lxml import etree
+from dateutil import parser as date_parser
+from dateutil.relativedelta import relativedelta
+import datetime
+from datetime import date
 
 class Wigle:
    
@@ -98,16 +102,53 @@ class Wigle:
                         KML.Icon(
                             KML.href("http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png"),
                         ),
-                        id="mystyle"
-                    ),
-                    id="circle"
+                        id="red_icon"
+                    ), id="red_circle"
                     )
                 )
+            document.Document.append(
+                KML.Style(
+                    KML.IconStyle(
+                        KML.scale(1.0),
+                        KML.color('ff00C2ff'),
+                        KML.Icon(
+                            KML.href("http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png"),
+                        ),
+                        id="amber_icon"
+                    ),
+                    id="amber_circle"
+                    )
+                )
+            document.Document.append(
+                KML.Style(
+                    KML.IconStyle(
+                        KML.scale(1.0),
+                        KML.color('ff00ff00'),
+                        KML.Icon(
+                            KML.href("http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png"),
+                        ),
+                        id="green_icon"
+                    ),
+                    id="green_circle"
+                    )
+                )
+            # Calulate date deltas to color code networks
+            minus_twelve = date.today()+relativedelta(months=-12)
+            minus_eighteen = date.today()+relativedelta(months=-18)
             # Loop through the network data, adding once placemark per network.
             for net in self.json_data:
+                updated_date = date_parser.parse(net["lastupdt"]).date()
+                # Colorise networks based on the time they were last seen
+                if updated_date > minus_twelve:
+                    style = "#green_circle"
+                elif (updated_date > minus_eighteen) and (updated_date < minus_twelve):
+                    style = "#amber_circle"
+                else:
+                    style = "#red_circle"
+                
                 pm = KML.Placemark(
                     KML.name(net["ssid"]), # title of the placemark
-                    KML.styleUrl("#circle"), # use the style we defined above
+                    KML.styleUrl(style), # use the style we defined above
                     KML.Point(KML.coordinates(net["trilong"],',',net["trilat"])),
                     # This ExtendedData is shown when a Placemark is selected in Google Earth
                     KML.ExtendedData(
@@ -126,7 +167,8 @@ class Wigle:
             outfile = open(filename, 'w')
             outfile.write(etree.tostring(document, pretty_print=True))
             outfile.close()
-        except TypeError:
+        except TypeError as e:
+            print e
             print "Export to KML: No data to export!"
 
     def export_csv(self, filename):

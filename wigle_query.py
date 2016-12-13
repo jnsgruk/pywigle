@@ -1,7 +1,7 @@
 import argparse
 import json
 import requests
-import csv
+import unicodecsv as csv
 from pykml.factory import KML_ElementMaker as KML
 from lxml import etree
 
@@ -40,7 +40,7 @@ class Wigle:
                             "longrange2" : box[3]
                         }
                     )
-
+                response_json = json.loads(response.content)
                 # Check if we've hit the last page
                 if response_json.get("resultCount") > 0:
                     self.json_data += response_json.get("results")
@@ -61,7 +61,7 @@ class Wigle:
         try:
             # Use the geocode service from the API to convert a full text address to a lat/long box
             response = requests.get(url = "https://api.wigle.net/api/v2/network/geocode", auth = (self.api_name,  self.api_token), params = { "addresscode" : address })
-            return response_json.get("results")[0]["boundingbox"]
+            return json.loads(response.content).get("results")[0]["boundingbox"]
         except NameError:
             print "get_box: Unexpected response. Have you hit your query limit?"
             exit()   
@@ -73,13 +73,13 @@ class Wigle:
         """ Reads in a JSON file containing network information previously saved using this tool """
         data = open(filename).read()
         # Parse the data, having removed any spurious unicode characters.
-        self.json_data = json.loads(data.decode('unicode_escape').encode('ascii','ignore'))
+        self.json_data = json.loads(data)
     
     def export_json(self, filename):
         """ Exports all network data to a JSON file """
         try:
             outfile = open(filename,'w')
-            json.dump(self.json_data, outfile)
+            json.dump(self.json_data, outfile, sort_keys=True, indent=4)
             outfile.close()
         except TypeError:
             print "Export to JSON: No data to export!"

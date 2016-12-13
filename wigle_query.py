@@ -95,56 +95,30 @@ class Wigle:
             document = KML.kml(KML.Document())
             # Create an icon style for each Placemark to use
             document.Document.append(
-                KML.Style(
-                    KML.IconStyle(
-                        KML.scale(1.0),
-                        KML.color('ff0000ff'),
-                        KML.Icon(
+                KML.Style(KML.IconStyle(KML.scale(1.0), KML.color('ff0000ff'), KML.Icon(
                             KML.href("http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png"),
-                        ),
-                        id="red_icon"
-                    ), id="red_circle"
-                    )
-                )
+                        ), id="red_icon"), id="red_circle"))
             document.Document.append(
-                KML.Style(
-                    KML.IconStyle(
-                        KML.scale(1.0),
-                        KML.color('ff00C2ff'),
-                        KML.Icon(
+                KML.Style(KML.IconStyle(KML.scale(1.0), KML.color('ff00C2ff'), KML.Icon(
                             KML.href("http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png"),
-                        ),
-                        id="amber_icon"
-                    ),
-                    id="amber_circle"
-                    )
-                )
+                        ), id="amber_icon"), id="amber_circle"))
             document.Document.append(
-                KML.Style(
-                    KML.IconStyle(
-                        KML.scale(1.0),
-                        KML.color('ff00ff00'),
-                        KML.Icon(
+                KML.Style(KML.IconStyle(KML.scale(1.0), KML.color('ff00ff00'), KML.Icon(
                             KML.href("http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png"),
-                        ),
-                        id="green_icon"
-                    ),
-                    id="green_circle"
-                    )
-                )
+                        ), id="green_icon"), id="green_circle"))
+
             # Calulate date deltas to color code networks
             minus_twelve = date.today()+relativedelta(months=-12)
             minus_eighteen = date.today()+relativedelta(months=-18)
             # Loop through the network data, adding once placemark per network.
             for net in self.json_data:
+                # Parse date of individual networks
                 updated_date = date_parser.parse(net["lastupdt"]).date()
                 # Colorise networks based on the time they were last seen
-                if updated_date > minus_twelve:
-                    style = "#green_circle"
-                elif (updated_date > minus_eighteen) and (updated_date < minus_twelve):
+                if updated_date > minus_twelve: style = "#green_circle"
+                elif (updated_date > minus_eighteen) and (updated_date < minus_twelve): 
                     style = "#amber_circle"
-                else:
-                    style = "#red_circle"
+                else: style = "#red_circle"
                 
                 pm = KML.Placemark(
                     KML.name(net["ssid"]), # title of the placemark

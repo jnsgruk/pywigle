@@ -5,7 +5,7 @@ Wigle Python script that can search a specific area for hotspots and output the 
 To install/set up:
 
 ```
-git clone ssh://git@git.jon0.co.uk:2222/jon/pywigle.git
+git clone git@github.com:jnsgruk/pywigle.git
 cd pywigle
 pip install -r requirements.txt
 mv config.json.example config.json

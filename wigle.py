@@ -25,7 +25,7 @@ class Wigle:
         try:
             creds = random.choice(self.creds)
         except IndexError:
-            print(f"[ERROR] Run out of working creds!")
+            print(f"[ERROR] Run out of working creds! Results may not be complete!")
             return None
 
         if self.debug:

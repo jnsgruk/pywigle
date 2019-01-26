@@ -1,5 +1,7 @@
-lxml==3.7.0
-pykml==0.1.0
-requests==2.12.3
+termcolor==1.1.0
+simplekml==1.3.1
+aiohttp==3.0.1
 unicodecsv==0.14.1
-python_dateutil==2.6.0
+requests==2.21.0
+proxybroker==0.3.1
+python_dateutil==2.7.5

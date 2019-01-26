@@ -1,6 +1,14 @@
 {
-    "api_creds": {
-        "api_name":"YOUR_API_NAME_HERE",
-        "api_token":"YOUR_API_TOKEN_HERE"
+  "debug": false,
+  "numProxies": 100,
+  "creds": [
+    {
+      "api_name": "XXXXX",
+      "api_token": "XXXXX"
+    },
+    {
+      "api_name": "XXXXX",
+      "api_token": "XXXXX"
     }
+  ]
 }

@@ -25,12 +25,9 @@ class Wigle:
         try:
             creds = random.choice(self.creds)
         except IndexError:
-            print(f"[ERROR] Run out of working creds! Results may not be complete!")
+            cprint(
+                f"[ERROR] Run out of working creds! Results may not be complete!", "red", attrs=["bold"])
             return None
-
-        if self.debug:
-            print(
-                f"[DEBUG] Using creds: {creds['api_name']}, {creds['api_token']}")
 
         return creds["api_name"], creds["api_token"]
 
@@ -75,6 +72,10 @@ class Wigle:
                 # Get some random creds and proxy
                 api_name, api_token = self.get_creds()
                 proxy = self.proxy_list.random()
+
+                if self.debug:
+                    cprint(
+                        f"[DEBUG] Proxying via {proxy.host}:{proxy.port} with creds {api_name}/{api_token}", "grey", attrs=["bold"])
 
                 # Send initial request, specifyng location and page
                 response = requests.get(
@@ -129,6 +130,10 @@ class Wigle:
             api_name, api_token = self.get_creds()
             proxy = self.proxy_list.random()
 
+            if self.debug:
+                cprint(
+                    f"[DEBUG] Proxying via {proxy.host}:{proxy.port} with creds {api_name}/{api_token}", "grey", attrs=["bold"])
+
             # Use the geocode service from the API to convert a full text address to a lat/long box
             response = requests.get(
                 url="https://api.wigle.net/api/v2/network/geocode",
@@ -166,7 +171,8 @@ class Wigle:
             self.proxy_list.remove(proxy)
             return self.get_box(address)
         except TypeError:
-            # We've run out of creds!
+            cprint(
+                f"[ERROR] Run out of working creds! Results may not be complete!", "red", attrs=["bold"])
             exit()
 
     def import_json(self, filename):

@@ -12,7 +12,7 @@ class ProxyList:
         self.num_proxies = num_proxies
 
         if self.debug:
-            print(f"[DEBUG] Finding proxies...")
+            cprint(f"[DEBUG] Finding proxies...", "grey", attrs=["bold"])
 
         self._populate()
 
@@ -29,9 +29,6 @@ class ProxyList:
             cprint(f"[DEBUG] Ran out of proxies! Repopulating list!",
                    "red", attrs=["bold"])
             self._populate()
-
-        if self.debug:
-            print(f"[DEBUG] Using proxy: http://{proxy.host}:{proxy.port}")
 
         return proxy
 
@@ -69,6 +66,6 @@ class ProxyList:
 
             if self.debug:
                 cprint(
-                    f"[DEBUG] Added proxy {proxy.host}:{proxy.port} to pool!")
+                    f"[DEBUG] Added proxy {proxy.host}:{proxy.port} to pool!", "grey", attrs=["bold"])
 
             self.proxy_list.append(proxy)

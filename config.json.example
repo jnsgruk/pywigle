@@ -1,6 +1,6 @@
 {
   "debug": false,
-  "numProxies": 100,
+  "numProxies": 50,
   "creds": [
     {
       "api_name": "XXXXX",

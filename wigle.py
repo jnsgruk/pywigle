@@ -109,13 +109,13 @@ class Wigle:
 
                         if self.debug:
                             cprint(
-                                f"[DEBUG] Failed! Removing expired creds and trying again...", "red", attrs=["bold"])
+                                f"[DEBUG] Failed! Removing expired creds and trying again...", "yellow", attrs=["bold"])
 
             except requests.exceptions.RequestException:
                 # Probably a proxy error, so we'll remove this proxy and try again!
                 if self.debug:
                     cprint(
-                        f"[DEBUG] RequestException in get_networks: Removing proxy {proxy.host}:{proxy.port} and retrying...", "red", attrs=["bold"])
+                        f"[DEBUG] Failed! Removing proxy {proxy.host}:{proxy.port} and retrying...", "yellow", attrs=["bold"])
                 self.proxy_list.remove(proxy)
             except TypeError:
                 # Run out of creds, carry on processing any results we did actually get!
@@ -166,7 +166,7 @@ class Wigle:
         except requests.exceptions.RequestException:
             if self.debug:
                 cprint(
-                    f"[DEBUG] RequestException in get_box: Removing proxy {proxy.host}:{proxy.port} and retrying...", "red", attrs=["bold"])
+                    f"[DEBUG] Failed! Removing proxy {proxy.host}:{proxy.port} and retrying...", "yellow", attrs=["bold"])
             # If there was a request error then remove the proxy and try a different one!
             self.proxy_list.remove(proxy)
             return self.get_box(address)
